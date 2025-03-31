@@ -20,5 +20,20 @@ er.post("/", auth, async (req, res)=>{
     res.status(200).json({newExpense})
 })
 
+er.delete("/:id", auth, async (req, res)=>{
+    const expenseId = req.params.id
+    const foundUser = req.foundUser
+    const deletedExpense = await expensesModel.findOneAndDelete({_id: expenseId, userId: foundUser._id})
+    res.status(200).json({deletedExpense})
+})
+
+er.get("/:from/:to", auth, async (req, res)=>{
+    const {from, to} = req.params
+    const foundUser = req.foundUser
+    const foundExpenses = await expensesModel.find({userId: foundUser._id,date: {$gte: new Date(from), $lte: new Date(to)}})
+    res.status(200).json({foundExpenses, from , to})
+})
+
+
 
 module.exports = er
