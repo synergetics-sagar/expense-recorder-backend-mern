@@ -1,0 +1,144 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "User API",
+      "description": "API documentation for User Management System"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "schemes": ["http"],
+    "paths": {
+      "/users/list": {
+        "get": {
+          "summary": "Get list of users",
+          "responses": {
+            "200": {
+              "description": "List of users",
+              "schema": {
+                "type": "array",
+                "items": {"$ref": "#/definitions/User"}
+              }
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "responses": {
+            "200": {
+              "description": "List of users with details",
+              "schema": {
+                "type": "array",
+                "items": {"$ref": "#/definitions/User"}
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new user",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {"$ref": "#/definitions/User"}
+            }
+          ],
+          "responses": {
+            "200": {"description": "User created successfully"}
+          }
+        }
+      },
+      "/users/profile": {
+        "get": {
+          "summary": "Get user profile",
+          "parameters": [
+            {
+              "in": "header",
+              "name": "Authorization",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User profile details",
+              "schema": {"$ref": "#/definitions/User"}
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "summary": "User login",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {"type": "string"},
+                  "password": {"type": "string"}
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {"description": "Login successful", "schema": {"type": "object", "properties": {"token": {"type": "string"}}}}
+          }
+        }
+      },
+      "/users/{id}": {
+        "delete": {
+          "summary": "Delete a user",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {"description": "User deleted successfully"}
+          }
+        },
+        "put": {
+          "summary": "Update a user",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {"$ref": "#/definitions/User"}
+            }
+          ],
+          "responses": {
+            "200": {"description": "User updated successfully"}
+          }
+        }
+      }
+    },
+    "definitions": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "email": {"type": "string"},
+          "password": {"type": "string"}
+        }
+      }
+    }
+  }
+  
