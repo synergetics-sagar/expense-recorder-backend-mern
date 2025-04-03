@@ -5,8 +5,9 @@ const er = express.Router()
 const path = require("path")
 const auth = require("../middlewares/auth")
 const expensesModel = require("../models/expensesModel")
+const ExpensesAndCategoriesModel = require("../models/expensesAndCategoriesMode")
 
-er.get("/", auth, async (req, res)=>{
+er.get("/", async (req, res)=>{
     const {foundUser} = req
     const expenses = await expensesModel.find({userId: foundUser._id})
     res.status(200).json({expenses})
@@ -14,7 +15,7 @@ er.get("/", auth, async (req, res)=>{
 
 er.post("/", auth, async (req, res)=>{
     let expense = req.body
-    const {foundUser} = req 
+    const {foundUser} = req
     expense.userId = foundUser._id
     const newExpense = await expensesModel.insertOne(expense)
     res.status(200).json({newExpense})
@@ -30,7 +31,7 @@ er.delete("/:id", auth, async (req, res)=>{
 er.get("/:from/:to", auth, async (req, res)=>{
     const {from, to} = req.params
     const foundUser = req.foundUser
-    const foundExpenses = await expensesModel.find({userId: foundUser._id,date: {$gte: new Date(from), $lte: new Date(to)}})
+    const foundExpenses = await ExpensesAndCategoriesModel.find({userId: foundUser._id,date: {$gte: new Date(from), $lte: new Date(to)}})
     res.status(200).json({foundExpenses, from , to})
 })
 

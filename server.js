@@ -6,7 +6,7 @@ const ur = require("./routes/usersRoutes")
 const fs = require("fs");
 const cr = require("./routes/categoriesRoutes");
 const er = require("./routes/expensesRoutes");
-
+const cors = require("cors")
 let app = express()
 const PORT = 8080
 
@@ -17,7 +17,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.set("view engine", "pug")
 
 app.use(express.json())
-
+app.use(cors())
 app.use("/users", ur)
 app.use("/categories", cr)
 app.use("/expenses", er)

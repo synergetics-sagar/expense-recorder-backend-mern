@@ -24,4 +24,11 @@ cr.post("/", auth ,async (req, res)=>{
     res.status(200).json({newCategory})
 })
 
+cr.delete("/:id", auth, async (req, res)=>{
+    const foundUser = req.foundUser
+    const id = req.params.id
+    const deletedCategory = await categoriesModel.findOneAndDelete({_id: id, userId: foundUser._id})
+    res.status(200).json({deletedCategory})
+})
+
 module.exports = cr
