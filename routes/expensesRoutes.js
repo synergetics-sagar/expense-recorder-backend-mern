@@ -35,6 +35,20 @@ er.get("/:from/:to", auth, async (req, res)=>{
     res.status(200).json({foundExpenses, from , to})
 })
 
+er.get("/:categoryId/:from/:to", auth, async (req, res)=>{
+    const {from, to, categoryId} = req.params
+    const foundUser = req.foundUser
+    try{
+        const foundExpenses = await ExpensesAndCategoriesModel.find({userId: foundUser._id,date: {$gte: new Date(from), $lte: new Date(to)}, categoryId: categoryId})
+        res.status(200).json({foundExpenses})
+    }
+    catch(error){
+        if(error.name=="CastError")
+        res.status(500).json({error: "Invalid Category"})
+    }
+    
+})
+
 
 
 module.exports = er
